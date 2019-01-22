@@ -1,0 +1,39 @@
+version: 1
+project:
+  configDir: config/kubernetes
+  environments:
+  - name: development
+    type: docker-compose
+  - name: staging
+    type: kubernetes
+  - name: production
+    type: kubernetes
+  kubernetes:
+    namespace: project
+
+apps:
+- name: project
+  image: 16bitt/project
+  build: .
+  configs:
+  - project
+  ports:
+  - "8000:8000"
+- name: project-sidekiq
+  image: 16bitt/project
+  build: .
+  configs:
+  - project
+- name: redis
+  image: redis:alpine
+  helm:
+    chart: stable/redis
+    name: project-redis
+
+configs:
+  project:
+  - name: REDIS_HOST
+    secret: false
+    defaults:
+    - type: kubernetes
+      value: project-redis.project.svc.cluster.local
