@@ -36,4 +36,11 @@ configs:
     secret: false
     defaults:
     - type: kubernetes
+      environment: default
       value: project-redis.project.svc.cluster.local
+  - name: POSTGRES_HOST
+    secret: false
+    defaults:
+    - type: kubernetes
+      environment: staging
+      value: pg-test.aws.rds.aws.net
