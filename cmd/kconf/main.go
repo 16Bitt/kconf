@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/16bitt/kconf/pkg/kconf"
 )
 
@@ -12,8 +10,12 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(config)
 	err = config.GenerateConfigmaps("./test")
+	if err != nil {
+		panic(err)
+	}
+
+	err = config.GenerateSecrets("./test")
 	if err != nil {
 		panic(err)
 	}

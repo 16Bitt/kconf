@@ -30,3 +30,14 @@ type Secret struct {
 	ApiVersion string
 	Data       map[string]string
 }
+
+// NewSecret returns a default empty secret
+func NewSecret() Secret {
+	return Secret{
+		Kind:       "Secret",
+		Type: 			"Opaque",
+		ApiVersion: ConfigsVersion,
+		Data:       make(map[string]string),
+		Metadata:   NewMetadata(),
+	}
+}

@@ -44,3 +44,5 @@ configs:
     - type: kubernetes
       environment: staging
       value: pg-test.aws.rds.aws.net
+  - name: POSTGRES_USER
+    secret: true
