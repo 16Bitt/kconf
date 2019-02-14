@@ -1,5 +1,9 @@
 package kubernetes
 
+import (
+	"gopkg.in/yaml.v2"
+)
+
 // ConfigsVersion is the default resource version for kubernetes
 // configmaps and secrets
 const ConfigsVersion = "api/v1"
@@ -22,6 +26,11 @@ func NewConfigmap() Configmap {
 	}
 }
 
+// SafeString returns the object as a string, returning an error on failure
+func (cfg Configmap) SafeString() (string, error) {
+	return serialize(cfg)
+}
+
 // Secret represents a confidential configuration for a deployment
 type Secret struct {
 	Metadata   Metadata
@@ -40,4 +49,18 @@ func NewSecret() Secret {
 		Data:       make(map[string]string),
 		Metadata:   NewMetadata(),
 	}
+}
+
+// SafeString returns the object as a string, returning an error on failure
+func (secret Secret) SafeString() (string, error) {
+	return serialize(secret)
+}
+
+func serialize(cfg interface{}) (string, error) {
+	bytes, err := yaml.Marshal(cfg)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), err
 }
