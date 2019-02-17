@@ -70,3 +70,20 @@ func (kc *KConfig) GenerateSecrets(environment string) (string, error) {
 	return builder.String(), nil
 }
 
+func (kc *KConfig) GenerateDeployments(environment string) (string, error) {
+	deps := []kubernetes.Deployment{}
+	for _, app := range kc.Apps {
+		dep := kubernetes.Deployment{
+			ApiVersion: kubernetes.DeploymentAPIVersion,
+			Metadata: kubernetes.Metadata{
+				Name:      app.Name,
+				Namespace: kc.Project.Kubernetes.Namespace,
+				Labels:    make(map[string]string),
+			},
+			Spec: DeploymentSpec{},
+		}
+
+		dep.Metadata.Labels["environment"] = environment
+	}
+	return "", nil
+}
