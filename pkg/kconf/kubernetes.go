@@ -73,17 +73,24 @@ func (kc *KConfig) GenerateSecrets(environment string) (string, error) {
 func (kc *KConfig) GenerateDeployments(environment string) (string, error) {
 	deps := []kubernetes.Deployment{}
 	for _, app := range kc.Apps {
-		dep := kubernetes.Deployment{
-			ApiVersion: kubernetes.DeploymentAPIVersion,
-			Metadata: kubernetes.Metadata{
-				Name:      app.Name,
-				Namespace: kc.Project.Kubernetes.Namespace,
-				Labels:    make(map[string]string),
-			},
-			Spec: DeploymentSpec{},
+		if app.Type != KubernetesAppType {
+			continue
 		}
 
-		dep.Metadata.Labels["environment"] = environment
+		dep := app.KubernetesDeployment(kc)
+		deps = append(deps, dep)
 	}
-	return "", nil
+
+	var builder strings.Builder
+	for _, dep := range deps {
+		yaml, err := dep.SafeString()
+		if err != nil {
+			return "", err
+		}
+		builder.WriteString("---\n")
+		builder.WriteString(yaml)
+		builder.WriteString("\n")
+	}
+
+	return builder.String(), nil
 }

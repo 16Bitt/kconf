@@ -14,18 +14,45 @@ project:
 apps:
 - name: project
   image: 16bitt/project
+  type: kubernetes
   build: .
   configs:
   - project
   ports:
   - "8000:8000"
+  kubernetes:
+    replicas: "3"
+    labels:
+      tier: backend
+      app: project
+    limits:
+      memory: 1Gi
+      cpu: 100m
+    requests:
+      memory: 1Gi
+      cpu: 100m
+
 - name: project-sidekiq
   image: 16bitt/project
+  type: kubernetes
   build: .
   configs:
   - project
+  kubernetes:
+    replicas: "2"
+    labels:
+      tier: backend
+      app: project
+    limits:
+      memory: 1Gi
+      cpu: 100m
+    requests:
+      memory: 1Gi
+      cpu: 100m
+
 - name: redis
   image: redis:alpine
+  type: helm
   helm:
     chart: stable/redis
     name: project-redis

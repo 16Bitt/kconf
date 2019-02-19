@@ -22,4 +22,11 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(secrets)
+
+	deps, err := config.GenerateDeployments("staging")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(deps)
 }

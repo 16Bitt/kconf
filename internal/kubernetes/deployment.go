@@ -25,7 +25,7 @@ type MatchSelector struct {
 // DeploymentTemplate wraps the functionality of a deployment
 type DeploymentTemplate struct {
 	Metadata Metadata
-	Spec     ContainerSpec
+	Spec     []ContainerSpec
 }
 
 // ContainerSpec defines the details of a container within a deployment
@@ -73,4 +73,8 @@ type ResourceConstraints struct {
 type ResourceConstraint struct {
 	Cpu    string
 	Memory string
+}
+
+func (dep Deployment) SafeString() (string, error) {
+	return serialize(dep)
 }
