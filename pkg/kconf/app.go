@@ -115,3 +115,12 @@ func (app App) kubernetesEnv(kc *KConfig) []kubernetes.EnvironmentConfig {
 
 	return envs
 }
+
+func (kc KConfig) AppType(env string) string {
+	for _, proj := range kc.Project.Environments {
+		if proj.Name == env {
+			return proj.Type
+		}
+	}
+	return "docker-compose"
+}

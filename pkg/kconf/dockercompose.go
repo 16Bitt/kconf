@@ -1,16 +1,13 @@
 package kconf
 
 import (
-	"fmt"
-	"io/ioutil"
-
 	"gopkg.in/yaml.v2"
 
 	"github.com/16bitt/kconf/internal/dockercompose"
 )
 
 // GenerateDockerCompose and write the file to path
-func (kc *KConfig) GenerateDockerCompose(path string) error {
+func (kc *KConfig) GenerateDockerCompose(env string) (string, error) {
 	root := dockercompose.New()
 	for _, app := range kc.Apps {
 		svc := dockercompose.Service{
@@ -26,7 +23,7 @@ func (kc *KConfig) GenerateDockerCompose(path string) error {
 
 		vars, err := kc.AllVars(app)
 		if err != nil {
-			return err
+			return "", err
 		}
 
 		for _, name := range vars {
@@ -38,14 +35,8 @@ func (kc *KConfig) GenerateDockerCompose(path string) error {
 
 	bytes, err := yaml.Marshal(root)
 	if err != nil {
-		return err
-	}
-	fmt.Println(string(bytes))
-
-	err = ioutil.WriteFile(path, bytes, 0)
-	if err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return string(bytes), nil
 }
