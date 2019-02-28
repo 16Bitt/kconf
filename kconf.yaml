@@ -1,12 +1,10 @@
+
 version: 1
 project:
-  configDir:
-    'config/kubernetes'
+  configDir: config/kubernetes
   environments:
   - name: development
     type: docker-compose
-  - name: staging
-    type: kubernetes
   - name: production
     type: kubernetes
   kubernetes:
@@ -14,7 +12,7 @@ project:
 
 apps:
 - name: project
-  image: 16bitt/project
+  image: user/project
   type: kubernetes
   build: .
   configs:
@@ -33,44 +31,11 @@ apps:
       memory: 1Gi
       cpu: 100m
 
-- name: project-sidekiq
-  image: 16bitt/project
-  type: kubernetes
-  build: .
-  configs:
-  - project
-  kubernetes:
-    replicas: "2"
-    labels:
-      tier: backend
-      app: project
-    limits:
-      memory: 1Gi
-      cpu: 100m
-    requests:
-      memory: 1Gi
-      cpu: 100m
-
-- name: redis
-  image: redis:alpine
-  type: helm
-  helm:
-    chart: stable/redis
-    name: project-redis
-
 configs:
   project:
-  - name: REDIS_HOST
+  - name: HELLO_WORLD
     secret: false
     defaults:
     - type: kubernetes
-      environment: default
-      value: project-redis.project.svc.cluster.local
-  - name: POSTGRES_HOST
-    secret: false
-    defaults:
-    - type: kubernetes
-      environment: staging
-      value: pg-test.aws.rds.aws.net
-  - name: POSTGRES_USER
-    secret: true
+      environment: production
+      value: Hello, production!

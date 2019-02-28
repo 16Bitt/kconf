@@ -37,7 +37,12 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Println(dc)
+
+		err = ioutil.WriteFile("./docker-compose.yml", []byte(dc), 0777)
+		if err != nil {
+			panic(err)
+		}
+
 		return
 	}
 
