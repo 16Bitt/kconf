@@ -1,6 +1,7 @@
 version: 1
 project:
-  configDir: config/kubernetes
+  configDir:
+    'config/kubernetes'
   environments:
   - name: development
     type: docker-compose
