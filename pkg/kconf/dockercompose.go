@@ -21,14 +21,12 @@ func (kc *KConfig) GenerateDockerCompose(env string) (string, error) {
 			svc.Image = app.Image
 		}
 
-		vars, err := kc.AllVars(app)
-		if err != nil {
-			return "", err
-		}
-
-		for _, name := range vars {
-			svc.Environment[name] = ""
-		}
+    for _, section := range app.Configs {
+      configs := kc.Configs[section]
+      for _, config := range configs {
+        svc.Environment[config.Name] = config.GetDefaultForEnvironment(env, ConfTypeDockerCompose)
+      }
+    }
 
 		root.Services[app.Name] = svc
 	}

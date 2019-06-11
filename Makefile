@@ -7,3 +7,10 @@ kubernetes:
 
 dockercompose:
 	cd internal/dockercompose && go build
+	
+run: kconf
+	cmd/kconf/kconf
+
+install: kconf
+	cd cmd/kconf && go install
+	

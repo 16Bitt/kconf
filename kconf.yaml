@@ -36,6 +36,9 @@ configs:
   - name: HELLO_WORLD
     secret: false
     defaults:
+    - type: docker-compose
+      environment: development
+      value: Hello, development!
     - type: kubernetes
       environment: production
       value: Hello, production!

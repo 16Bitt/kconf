@@ -12,7 +12,7 @@ const ConfigsVersion = "api/v1"
 type Configmap struct {
 	Metadata   Metadata
 	Kind       string
-	ApiVersion string
+	ApiVersion string `yaml:"apiVersion"`
 	Data       map[string]string
 }
 

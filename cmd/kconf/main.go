@@ -16,7 +16,7 @@ func main() {
 
 	if *init {
 		fmt.Println("Generating default kconf config")
-		err := ioutil.WriteFile(*confPath, []byte(kconf.DefaultConfig), 0777)
+		err := ioutil.WriteFile(*confPath, []byte(kconf.DefaultConfig), 0600)
 		if err != nil {
 			panic(err)
 		}
@@ -38,7 +38,7 @@ func main() {
 		}
 
 
-		err = ioutil.WriteFile("./docker-compose.yml", []byte(dc), 0777)
+		err = ioutil.WriteFile("./docker-compose.yml", []byte(dc), 0600)
 		if err != nil {
 			panic(err)
 		}
@@ -59,7 +59,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = ioutil.WriteFile(resourcePath(config, "configmaps.yml", *environment), []byte(configs), 0777)
+	err = ioutil.WriteFile(resourcePath(config, "configmaps.yml", *environment), []byte(configs), 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -68,7 +68,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = ioutil.WriteFile(resourcePath(config, "secrets.yml", *environment), []byte(secrets), 0777)
+	err = ioutil.WriteFile(resourcePath(config, "secrets.yml", *environment), []byte(secrets), 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -77,7 +77,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = ioutil.WriteFile(resourcePath(config, "deployments.yml", *environment), []byte(deps), 0777)
+	err = ioutil.WriteFile(resourcePath(config, "deployments.yml", *environment), []byte(deps), 0600)
 	if err != nil {
 		panic(err)
 	}

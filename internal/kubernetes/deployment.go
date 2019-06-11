@@ -19,7 +19,7 @@ type DeploymentSpec struct {
 
 // MatchSelector provides a map a labels for querying the deployment
 type MatchSelector struct {
-	MatchLabels map[string]string
+	MatchLabels map[string]string `yaml:"matchLabels"`
 }
 
 // DeploymentTemplate wraps the functionality of a deployment
@@ -41,20 +41,20 @@ type ContainerSpec struct {
 
 // PortSpec defines the open ports to communicate with a container in a pod
 type PortSpec struct {
-	ContainerPort string
+	ContainerPort string `yaml:"containerPort"`
 }
 
 // EnvironmentConfig defines a configuration and how it is mapped to the container
 type EnvironmentConfig struct {
 	Name      string
 	Value     string              `yaml:",omitempty"`
-	ValueFrom EnvironmentValueMap `yaml:",omitempty"`
+	ValueFrom EnvironmentValueMap `yaml:"valueFrom,omitempty"`
 }
 
 // EnvironmentValueMap defines how the environment value is mapped to your container
 type EnvironmentValueMap struct {
-	ConfigMapKeyRef KeyRef `yaml:",omitempty"`
-	SecretKeyRef    KeyRef `yaml:",omitempty"`
+	ConfigMapKeyRef KeyRef `yaml:"configMapKeyRef,omitempty"`
+	SecretKeyRef    KeyRef `yaml:"secretKeyRef,omitempty"`
 }
 
 // KeyRef maps a secret or configmap value to an environment config

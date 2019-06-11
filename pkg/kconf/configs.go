@@ -4,6 +4,7 @@ import "fmt"
 
 const (
 	ConfTypeKubernetes = "kubernetes"
+  ConfTypeDockerCompose = "docker-compose"
 )
 
 // Config is a configuration section for an application
